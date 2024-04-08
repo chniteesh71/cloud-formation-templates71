@@ -1,4 +1,7 @@
 Parameters:
+  keynameofinstance:
+    Description: Name of the ec2 login key
+    Type : AWS::EC2::KeyPair::KeyName
   NameOfService:
     Description : " The name of the service this stack is used for"
     Type : String
@@ -13,9 +16,7 @@ Parameters:
       - m1.small
       - m1.large
     Description: Enter t2.micro, m1.small, or m1.large. Default is t2.micro.
-  keynameofinstance:
-    Description: Name of the ec2 login key
-    Type : AWS::EC2::KeyPair::KeyName
+
     
 Mappings: 
   AmiRegionMap: 
@@ -32,7 +33,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: !Ref InstanceTypeParameter
-      keyName : !Ref keynameofinstance
+      KeyName : !Ref keynameofinstance
       AvailabilityZone: us-east-1a
       ImageId: !FindInMap
          - AmiRegionMap
