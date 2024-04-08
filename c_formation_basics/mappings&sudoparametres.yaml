@@ -1,0 +1,39 @@
+Mappings: 
+  AmiRegionMap: 
+    us-east-1: 
+      "AMI": "ami-051f8a213df8bc089"
+    us-east-2: 
+      "AMI": "ami-0900fe555666598a2"
+    us-west-1: 
+      "AMI": "ami-0b990d3cfca306617"
+    us-west-2: 
+      "AMI": "ami-0395649fbe870727e"
+Resources:
+  myinstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      AvailabilityZone: us-east-1a
+      ImageId: !FindInMap
+         - AmiRegionMap
+         - !Ref AWS:Region
+         - AMI
+      Tags:
+        - Key: Name
+          Value: !Join ["-",[my,instance,from,cloud,formation]]
+      SecurityGroups:
+         - !Ref vprofilesg
+
+  vprofilesg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow connections from specified CIDR ranges my ip
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 49.204.199.215/32
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 49.204.199.215/32
