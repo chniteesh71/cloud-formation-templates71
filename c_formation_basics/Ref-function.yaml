@@ -7,4 +7,7 @@ Resources:
       ImageId: ami-07d9b9ddc6cd8dd30
       Tags:
         - Key: Name
-          Value: "!Join ["-",[my,instance,from,cloud,formation]]"
+          Value: !Join
+             - " "
+             - - "My instance in"
+               - !Ref AWS::Region
